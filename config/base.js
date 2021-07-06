@@ -5,16 +5,12 @@ module.exports = {
     //打包多页面
     entry: {
         main: [
-            // 'fullpage.js/dist/fullpage.js',
-            './src/css/main.css',
             './src/js/main.js'
         ],
         index: [
-            './src/css/index.scss',
             './src/js/index.js'
         ],
         test: [
-            './src/css/test.css',
             './src/js/test.js'
         ],
     },
