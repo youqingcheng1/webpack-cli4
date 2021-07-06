@@ -1,19 +1,19 @@
 //配置公共入口和内置模块providePlugin
 const webpack = require('webpack');
+const { entryPage } = require('./entrydata');
+
+const entryData = {};
+entryPage.forEach((i)=>{
+    for(let r in i){
+        if(r!=='name'){
+            entryData[r] = i[r]
+        }
+    }
+})
 
 module.exports = {
     //打包多页面
-    entry: {
-        main: [
-            './src/js/main.js'
-        ],
-        index: [
-            './src/js/index.js'
-        ],
-        test: [
-            './src/js/test.js'
-        ],
-    },
+    entry: entryData,
     plugins: [
         new webpack.ProvidePlugin({
             $: 'jquery',

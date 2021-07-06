@@ -3,6 +3,15 @@ const path = require("path");
 const htmlPlugin = require('html-webpack-plugin');
 const base = require("./base.js");
 const merge = require("webpack-merge");
+const { entryPage } = require('./entrydata');
+const entryData = [];
+entryPage.forEach((i)=>{
+    entryData.push(new htmlPlugin({
+        chunks: [i['name']],
+        filename: `${i['name']}.html`,
+        template: `src/htl/${i['name']}.html`
+    }))
+})
 
 module.exports = merge(base, {
     mode: "development",//生产环境
@@ -65,23 +74,7 @@ module.exports = merge(base, {
         ]
     },//loader模块
     plugins:[
-        new htmlPlugin({
-            chunks: ['main'],
-            filename: 'main.html',
-            template: 'src/htl/main.html'
-        }),
-        new htmlPlugin({
-            chunks: ['index'],
-            filename: 'index.html',
-            template: 'src/htl/index.html',
-            inject: true,
-        }),
-        new htmlPlugin({
-            chunks: ['test'],
-            filename: 'test.html',
-            template: 'src/htl/test.html',
-            inject: true,
-        })
+        ...entryData
     ],//插件
     devServer:{
         contentBase: path.join(__dirname, 'src'),

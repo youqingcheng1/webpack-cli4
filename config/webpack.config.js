@@ -7,6 +7,21 @@ const htmlPlugin = require("html-webpack-plugin");//;打包html
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");//提取单独css
 const CleanWebpackPlugin = require('clean-webpack-plugin');//删除重复打包的文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')//压缩css
+const { entryPage } = require('./entrydata');
+const entryData = [];
+entryPage.forEach((i)=>{
+    entryData.push(new htmlPlugin({
+        minify:{
+            minifyCSS: true,
+            minifyJS: true,
+            removeComments: true,
+            collapseWhitespace: true
+        },
+        chunks: [i['name']],
+        filename: `htl/${i['name']}.html`,
+        template: `src/htl/${i['name']}.html`
+    }))
+})
 
 //cdn资源路径
 var website ={
@@ -87,39 +102,18 @@ module.exports = merge(base, {
             // extractComments: true,//开启注释
             sourceMap: true,
         }),//提取js文件包，但webpack4，内部自提取
-        new htmlPlugin({
-            minify: {
-                minifyCSS: true,
-                minifyJS: true,
-                removeComments: true, //移除HTML中的注释
-                collapseWhitespace: true // 删除空白符与换行符
-            },
-            chunks: ['main'],
-            filename: 'htl/main.html',//输出的html名，也可以直接配置带有子目录。
-            template: 'src/htl/main.html'//为新生成的index.html指定模版
-        }),//提取html包，可配置多个页面
-        new htmlPlugin({
-            minify:{
-                minifyCSS: true,
-                minifyJS: true,
-                removeComments: true,
-                collapseWhitespace: true
-            },
-            chunks: ['index'],
-            filename: 'htl/index.html',
-            template: 'src/htl/index.html'
-        }),
-        new htmlPlugin({
-            minify:{
-                minifyCSS: true,
-                minifyJS: true,
-                removeComments: true,
-                collapseWhitespace: true
-            },
-            chunks: ['test'],
-            filename: 'htl/test.html',
-            template: 'src/htl/test.html'
-        }),
+        // new htmlPlugin({
+        //     minify: {
+        //         minifyCSS: true,
+        //         minifyJS: true,
+        //         removeComments: true, //移除HTML中的注释
+        //         collapseWhitespace: true // 删除空白符与换行符
+        //     },
+        //     chunks: ['main'],
+        //     filename: 'htl/main.html',//输出的html名，也可以直接配置带有子目录。
+        //     template: 'src/htl/main.html'//为新生成的index.html指定模版
+        // }),//提取html包，可配置多个页面
+        ...entryData,
         new OptimizeCssAssetsPlugin()
     ]
 
