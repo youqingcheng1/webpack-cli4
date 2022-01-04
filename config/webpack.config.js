@@ -25,7 +25,7 @@ entryPage.forEach((i)=>{
 
 //cdn资源路径
 var website ={
-    publicPath: process.env.NODE_ENV === 'production' ? 'zhengshifu' : "ceshifu"
+    publicPath: process.env.NODE_ENV === 'production' ? 'zhengshifu' : "http://mall-test.miniworldstory.com/404/"
 }
 
 module.exports = merge(base, {
