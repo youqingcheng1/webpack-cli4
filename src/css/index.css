@@ -73,7 +73,7 @@ li:nth-child(1) {
 
 li:nth-child(2) {
     background: url('../images/02.png');
-    width: 403px;
+    width: 404px;
     height: 123px;
     position: absolute;
     left: 447px;
@@ -83,7 +83,7 @@ li:nth-child(2) {
 
 li:nth-child(3) {
     background: url('../images/03.png');
-    width: 403px;
+    width: 404px;
     height: 123px;
     position: absolute;
     right: 421px;

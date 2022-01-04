@@ -9,23 +9,23 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');//删除重复打包�
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')//压缩css
 const { entryPage } = require('./entrydata');
 const entryData = [];
-entryPage.forEach((i)=>{
+entryPage.forEach((i) => {
     entryData.push(new htmlPlugin({
-        minify:{
+        minify: {
             minifyCSS: true,
             minifyJS: true,
             removeComments: true,
             collapseWhitespace: true
         },
         chunks: [i['name']],
-        filename: `htl/${i['name']}.html`,
+        filename: i['name'] === 'index' ? `index.html` : i['name'] === 'main' ? `m/index.html` : `m/landscape/index.html`,
         template: `src/htl/${i['name']}.html`
     }))
 })
 
 //cdn资源路径
-var website ={
-    publicPath: process.env.NODE_ENV === 'production' ? 'zhengshifu' : "http://mall-test.miniworldstory.com/404/"
+var website = {
+    publicPath: process.env.NODE_ENV === 'production' ? 'https://mnweb.mini1.cn/activity/minishopping/404/' : "http://mall-test.miniworldstory.com/404/"
 }
 
 module.exports = merge(base, {
@@ -35,8 +35,8 @@ module.exports = merge(base, {
         filename: 'js/[name].[hash].js',
         publicPath: website.publicPath
     },
-    module:{
-        rules:[
+    module: {
+        rules: [
             {
                 test: /\.css$/,
                 use: [
@@ -47,7 +47,7 @@ module.exports = merge(base, {
                         options: {
                             plugins: [
                                 require('postcss-import')(),
-                                require('autoprefixer')({overrideBrowserslist: ['> 0.15% in CN']})
+                                require('autoprefixer')({ overrideBrowserslist: ['> 0.15% in CN'] })
                             ]
                         }
                     }
@@ -62,26 +62,26 @@ module.exports = merge(base, {
                 ]
             },
             {
-                test:/\.(png|jpg|gif|jpeg)/,
+                test: /\.(png|jpg|gif|jpeg)/,
                 use: [{
                     loader: "url-loader",
-                    options:{
+                    options: {
                         limit: 10000,// 小图转成base64
                         name: 'images/[name].[hash].[ext]',
                     }
                 }],
             },//打包图片
             {
-                test:/\.js$/,
-                loader:'babel-loader',
-                exclude:/node_modules/
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },//ES6转ES5
             {
                 test: /\.(htm|html)$/i,
                 use: {
                     loader: 'html-loader',
                     options: {
-                        attrs: [':data-original',':src']
+                        attrs: [':data-original', ':src']
                     }
                 }
             },//自定义打包html图片

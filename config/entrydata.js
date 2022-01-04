@@ -1,7 +1,7 @@
 const entryPage = [
     {
-        name:'m',
-        m:'./src/js/m.js',
+        name:'main',
+        main:'./src/js/main.js',
     },
     {
         name:'index',

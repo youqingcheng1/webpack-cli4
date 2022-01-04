@@ -1,9 +1,9 @@
 import '../css/mLan.css'
 function mInitLan() {
     let obj = {
-        orientation: '/404/m/',
-        landscape: '/404/m/landscape/',
-        pc: '/404/'
+        orientation: '/activity/minishopping/404/m/',
+        landscape: '/activity/minishopping/404/m/landscape/',
+        pc: '/activity/minishopping/404/'
     }
     let type = ''
     if (!/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
