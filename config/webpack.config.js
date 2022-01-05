@@ -1,17 +1,16 @@
 //配置生产环境，用于线上
 const path = require("path");
 const merge = require("webpack-merge");//合并文件
-const base = require("./base");
+const { entry, entryPage, plugins } = require("./base.js");
 const uglify = require("uglifyjs-webpack-plugin");//打包js
 const htmlPlugin = require("html-webpack-plugin");//;打包html
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");//提取单独css
 const CleanWebpackPlugin = require('clean-webpack-plugin');//删除重复打包的文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')//压缩css
-const { entryPage } = require('./entrydata');
 const entryData = [];
-entryPage.forEach((i)=>{
+entryPage.forEach((i) => {
     entryData.push(new htmlPlugin({
-        minify:{
+        minify: {
             minifyCSS: true,
             minifyJS: true,
             removeComments: true,
@@ -24,19 +23,19 @@ entryPage.forEach((i)=>{
 })
 
 //cdn资源路径
-var website ={
+var website = {
     publicPath: process.env.NODE_ENV === 'production' ? 'zhengshifu' : "ceshifu"
 }
 
-module.exports = merge(base, {
+module.exports = merge({ entry, plugins }, {
     mode: 'production',
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash].js',
         publicPath: website.publicPath
     },
-    module:{
-        rules:[
+    module: {
+        rules: [
             {
                 test: /\.css$/,
                 use: [
@@ -47,7 +46,7 @@ module.exports = merge(base, {
                         options: {
                             plugins: [
                                 require('postcss-import')(),
-                                require('autoprefixer')({overrideBrowserslist: ['> 0.15% in CN']})
+                                require('autoprefixer')({ overrideBrowserslist: ['> 0.15% in CN'] })
                             ]
                         }
                     }
@@ -62,26 +61,26 @@ module.exports = merge(base, {
                 ]
             },
             {
-                test:/\.(png|jpg|gif|jpeg)/,
+                test: /\.(png|jpg|gif|jpeg)/,
                 use: [{
                     loader: "url-loader",
-                    options:{
+                    options: {
                         limit: 10000,// 小图转成base64
                         name: 'images/[name].[hash].[ext]',
                     }
                 }],
             },//打包图片
             {
-                test:/\.js$/,
-                loader:'babel-loader',
-                exclude:/node_modules/
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },//ES6转ES5
             {
                 test: /\.(htm|html)$/i,
                 use: {
                     loader: 'html-loader',
                     options: {
-                        attrs: [':data-original',':src']
+                        attrs: [':data-original', ':src']
                     }
                 }
             },//自定义打包html图片
@@ -96,7 +95,7 @@ module.exports = merge(base, {
             root: path.join(__dirname, "../"),
             verbose: false,
             dry: false
-        }),//清除release
+        }),//清除dist
         new uglify({
             test: /\.js(\?.*)?$/i,
             // extractComments: true,//开启注释
@@ -116,5 +115,4 @@ module.exports = merge(base, {
         ...entryData,
         new OptimizeCssAssetsPlugin()
     ]
-
 })

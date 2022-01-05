@@ -1,11 +1,10 @@
-    //配置开发环境，用于本地起服务
+//配置开发环境，用于本地起服务
 const path = require("path");
 const htmlPlugin = require('html-webpack-plugin');
-const base = require("./base.js");
+const { entry, entryPage, plugins } = require("./base.js");
 const merge = require("webpack-merge");
-const { entryPage } = require('./entrydata');
 const entryData = [];
-entryPage.forEach((i)=>{
+entryPage.forEach((i) => {
     entryData.push(new htmlPlugin({
         chunks: [i['name']],
         filename: `${i['name']}.html`,
@@ -13,7 +12,7 @@ entryPage.forEach((i)=>{
     }))
 })
 
-module.exports = merge(base, {
+module.exports = merge({ entry, plugins }, {
     mode: "development",//生产环境
     output: {
         path: path.resolve(__dirname, './src'),
@@ -32,7 +31,7 @@ module.exports = merge(base, {
                         options: {
                             plugins: [
                                 require('postcss-import')(),
-                                require('autoprefixer')({overrideBrowserslist: ['> 0.15% in CN']})
+                                require('autoprefixer')({ overrideBrowserslist: ['> 0.15% in CN'] })
                             ]
                         }
                     }
@@ -47,36 +46,36 @@ module.exports = merge(base, {
                 ]
             },
             {
-                test:/\.(png|jpg|gif|jpeg)/,
+                test: /\.(png|jpg|gif|jpeg)/,
                 use: [{
                     loader: "url-loader",
-                    options:{
+                    options: {
                         limit: 10000,
-                        name:'images/[name].[ext]',
+                        name: 'images/[name].[ext]',
                         // publicPath: website.publicPath + 'images'
                     }
                 }],
             },
-             {
-                  test: /\.(html)$/,
-                  use: {
-                   loader: 'html-loader',
-                   options: {
-                         attrs: ['img:src', 'img:data-src', 'audio:src']//html图片输出
-                   }
-                  }
-            },
             {
-                test:/\.js$/,
-                loader:'babel-loader',
-                exclude:/node_modules/
+                test: /\.(html)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['img:src', 'img:data-src', 'audio:src']//html图片输出
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
             }//ES6转ES5
         ]
     },//loader模块
-    plugins:[
+    plugins: [
         ...entryData
     ],//插件
-    devServer:{
+    devServer: {
         contentBase: path.join(__dirname, 'src'),
         host: 'localhost',
         hot: true,
