@@ -25,7 +25,7 @@ entryPage.forEach((i) => {
 
 //cdn资源路径
 var website = {
-    publicPath: process.env.NODE_ENV === 'production' ? 'https://mnweb.mini1.cn/activity/minishopping/404/' : "http://mall-test.miniworldstory.com/404/"
+    publicPath: process.env.NODE_ENV === 'production' ? 'https://mnweb.mini1.cn/activity/minishopping/error_page/' : "http://mall-test.miniworldstory.com/404/"
 }
 
 module.exports = merge(base, {

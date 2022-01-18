@@ -2,9 +2,9 @@ import '../css/index.css'
 
 function pcInit() {
     let obj = {
-        orientation: '/activity/minishopping/404/m/',
-        landscape: '/activity/minishopping/404/m/landscape/',
-        pc: '/activity/minishopping/404/'
+        orientation: '/activity/minishopping/error_page/m/',
+        landscape: '/activity/minishopping/error_page/m/landscape/',
+        pc: '/activity/minishopping/error_page/'
     }
     let type = ''
     if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) {
